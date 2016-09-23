@@ -28,7 +28,7 @@ public class UniquePersonList implements Iterable<Person> {
      */
     public static class PersonNotFoundException extends Exception {}
 
-    private final List<Person> internalList = new ArrayList<>();
+    private final List<Person> internalList = new ArrayList<Person>();
 
     /**
      * Constructs empty person list.
@@ -57,7 +57,23 @@ public class UniquePersonList implements Iterable<Person> {
         }
         internalList.addAll(persons);
     }
+    
+    class Sorter implements Comparator<Person>{
 
+		@Override
+		public int compare(Person arg0, Person arg1) {
+			// TODO Auto-generated method stub
+			return arg0.getName().fullName.compareTo(arg1.getName().fullName);
+		}
+
+
+    }
+    
+    
+    public List<Person> sort(){
+    	internalList.sort(new Sorter());
+    	return Collections.unmodifiableList(internalList);
+    }
     /**
      * Constructs a shallow copy of the list.
      */
@@ -73,8 +89,7 @@ public class UniquePersonList implements Iterable<Person> {
     public List<ReadOnlyPerson> immutableListView() {
         return Collections.unmodifiableList(internalList);
     }
-
-
+    
     /**
      * Checks if the list contains an equivalent person as the given argument.
      */
